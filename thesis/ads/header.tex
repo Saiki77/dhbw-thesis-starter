@@ -204,6 +204,16 @@
 
 % \autoref{lst:...} schreibt "Listing" vor die Nummer
 \providecommand*{\lstlistingautorefname}{Listing}
+% Englisch: hyperref schreibt "chapter 2"; großgeschrieben passt es auch am Satzanfang
+\ifenglisch
+	\AtBeginDocument{%
+		\def\chapterautorefname{Chapter}%
+		\def\sectionautorefname{Section}%
+		\def\subsectionautorefname{Section}%
+		\def\subsubsectionautorefname{Section}%
+		\def\appendixautorefname{Appendix}%
+	}
+\fi
 
 %nur ein latex-Durchlauf für die Aktualisierung von Verzeichnissen nötig
 \usepackage{bookmark}

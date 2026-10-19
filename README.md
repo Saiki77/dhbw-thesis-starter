@@ -11,11 +11,13 @@ Open Claude Code in the folder where the thesis should live (for example `~/Proj
 
 Afterwards, start Claude Code inside `my-thesis`, so it reads `CLAUDE.md` on its own.
 
+No GitHub CLI? On this page, Code → Download ZIP, unzip it to `~/Projects/my-thesis`, start Claude Code there and ask it to follow "First-time setup" in `CLAUDE.md`.
+
 ## Set up by hand (macOS)
 
 1. `gh repo clone Saiki77/dhbw-thesis-starter my-thesis && cd my-thesis && git remote remove origin`
 2. `./setup.sh`, and do what it prints until it says `Ready`
 3. Fill in the block at the top of `thesis/dokumentation.tex`
-4. `code .`, open `thesis/dokumentation.tex`, press Cmd+Alt+V
+4. `open -a "Visual Studio Code" .`, open `thesis/dokumentation.tex`, press Cmd+Alt+V
 
 Writing, styles, the extension and troubleshooting: [CLAUDE.md](CLAUDE.md).

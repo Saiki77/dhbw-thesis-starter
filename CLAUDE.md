@@ -9,8 +9,8 @@ Claude: do this when the user asks to set up the project.
 About 5 minutes, plus a 10–20 minute MacTeX download if TeX is missing.
 macOS only; on Windows or Linux follow [Windows and Linux](#windows-and-linux) instead of step 2.
 
-1. **Detach from the starter repo.** If `git remote -v` shows `Saiki77/dhbw-thesis-starter`, run `git remote remove origin`, so the thesis is never pushed there. Offer a private repo of their own as backup: `gh repo create <name> --private --source . --push`.
-2. **Install.** Run `./setup.sh`. It checks MacTeX and VS Code, installs LaTeX Workshop and the companion extension, and test-builds the PDF. It is safe to re-run and needs no password. When it reports something missing, give the user the exact command it printed to run in their own terminal (the MacTeX installer asks for their password; never ask for it or type it yourself), then re-run `./setup.sh` until it prints `Ready`.
+1. **Detach from the starter repo.** If `git remote -v` shows `Saiki77/dhbw-thesis-starter`, run `git remote remove origin`, so the thesis is never pushed there.
+2. **Install.** Run `./setup.sh`. It checks MacTeX and VS Code, installs LaTeX Workshop and the companion extension, and test-builds the PDF. It is safe to re-run and needs no password. For each item it reports missing, pass its fix on to the user: commands that install software run in the user's own terminal (the MacTeX installer asks for their password; never ask for it or type it yourself), and a VS Code update happens in VS Code itself. Steps 3 and 4 only need MacTeX, so continue with them while VS Code items are open, and re-run `./setup.sh` until it prints `Ready`.
 3. **Personalize.** Ask the user, in one message, for the data below and fill in the block `DEINE ANGABEN` at the top of `thesis/dokumentation.tex`:
    - language of the thesis: German (default) or English (`\englischtrue`)
    - title, subtitle (optional), type of work, e.g. `Projektarbeit (T2000)` or `Bachelorarbeit (T3300)`
@@ -18,11 +18,12 @@ macOS only; on Windows or Linux follow [Windows and Linux](#windows-and-linux) i
    - company and its address, supervisor at the company, reviewer at the DHBW (if known)
    - Bearbeitungszeitraum, submission date and place
    - Sperrvermerk wanted? (default yes; `\sperrvermerkfalse` removes the page)
-   - company logo: a PNG saved as `thesis/images/logo.png`, or delete the placeholder for none
+   - company logo: a PNG saved as `thesis/images/logo.png`; for none, delete that file
 
-   Write `&` as `\&`. An empty field (`\newcommand{\gutachter}{}`) drops its row from the title page.
-4. **Build.** `./build.sh` must end with `no errors, no undefined references`.
-5. **Open.** `code .`, open `thesis/dokumentation.tex`, press Cmd+Alt+V. Then show the user the keys under [Daily use](#daily-use) and the one-sentence-per-line rule, and suggest starting Claude Code inside this folder from now on, so this file is read automatically.
+   Write `&` as `\&`. An empty field (`\newcommand{\gutachter}{}`) drops its row from the title page. Field values are printed as given, so keep them in the language the title page needs.
+   The title page stays German in both languages (DHBW standard; its labels are in `ads/deckblatt.tex`). For an English thesis, also translate the chapter titles and placeholder sentences in `thesis/content/` and `ads/abstract.tex`, which are German.
+4. **Build and commit.** `./build.sh` must end with `no errors, no undefined references`. Then `git add -A && git commit -m "Personalize thesis"` (run `git init` first if the folder came from a ZIP download), and offer the user a private repo of their own as backup: `gh repo create <name> --private --source . --push`.
+5. **Open.** Run `open -a "Visual Studio Code" .` yourself. Then the user opens `thesis/dokumentation.tex` and presses Cmd+Alt+V. Show them the keys under [Daily use](#daily-use) and the one-sentence-per-line rule, and suggest starting Claude Code inside this folder from now on, so this file is read automatically.
 
 ## Daily use
 
@@ -75,7 +76,7 @@ Almost everything is in `thesis/ads/header.tex`, in numbered sections (§).
 
 | Want | Where | Change |
 |---|---|---|
-| Language | `dokumentation.tex` | `\englischtrue` / `\englischfalse`: headings, quotes, citations, Erklärung |
+| Language | `dokumentation.tex` | `\englischtrue` / `\englischfalse`: headings, quotes, citations, cross-references, Erklärung; the title page stays German |
 | Font | header §2 | replace `\usepackage{palatino}` with one of the listed alternatives |
 | Serif headings | header §2 | uncomment `\addtokomafont{disposition}{\rmfamily}` |
 | Font size | class options in `dokumentation.tex` | `12pt` → `11pt` |
@@ -104,7 +105,7 @@ Our own VS Code extension, not on the marketplace; source in `tools/latex-review
 - **Citation check:** `LaTeX Citations: Check citations against bibliography` lists unknown keys (error), duplicate entries (warning) and never-cited entries (info) in the Problems panel.
 - **Evidence links:** `LaTeX Citations: Enable evidence links` puts a blue ▷ after every citation in the PDF that opens the cited source: `thesis/sources/<key>.pdf` (see the README there) or else the entry's `url`. It writes `citation-evidence*.tex` next to `dokumentation.tex` and inserts `\input{citation-evidence}`; `LaTeX Citations: Disable evidence links` removes it again.
 - **Settings:** `latexCitations.*` (server port 8765, `sourcesDirs`, marker symbol and color).
-- **Reinstall:** `code --install-extension tools/latex-review-companion-0.4.0.vsix`, then run `Developer: Reload Window`.
+- **Reinstall:** `code --install-extension tools/latex-review-companion-0.4.0.vsix`, then run `Developer: Reload Window`. If `code` is not found: Command Palette → `Shell Command: Install 'code' command in PATH`.
 - **After changing its source:** bump `version` in its `package.json`, run `npx @vscode/vsce package` in that folder, move the new `.vsix` to `tools/`, install it.
 
 ## Troubleshooting
