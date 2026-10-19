@@ -25,3 +25,7 @@ Afterwards, start Claude Code inside `my-thesis`, so it reads `CLAUDE.md` on its
 No git? On this page, Code → Download ZIP, and unzip it to `~/Projects/my-thesis`.
 
 Writing, styles, the extension and troubleshooting: [CLAUDE.md](CLAUDE.md).
+
+## License
+
+Apache License 2.0 ([LICENSE](LICENSE)). Credits for the original DHBW template and the parts that keep their own terms: [NOTICE](NOTICE).

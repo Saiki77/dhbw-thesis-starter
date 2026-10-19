@@ -1,0 +1,19 @@
+DHBW thesis starter
+Copyright 2026 Saiki77 (github.com/Saiki77)
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+This product includes the DHBW LaTeX thesis template ("Vorlage fuer
+Bachelorarbeiten der DHBW") by Tobias Dreher and Yves Fischer (2011) and
+Michael Gruben (2013), Copyright 2013 ChornHulio, licensed under the Apache
+License, Version 2.0 (see thesis/LICENSE). Its files under thesis/ were
+modified in 2026: local build with latexmk, VS Code setup, German/English
+switch, a single data block for the title page, and bug fixes.
+
+Third-party parts that keep their own terms:
+- thesis/agsm-de.bst is derived from agsm.bst by Peter Williams (harvard
+  bibliography bundle, distributed with TeX Live), changed to German wording
+  and renamed as the copyright notice in its header requires.
+- thesis/images/dhbw.png is the logo of the Duale Hochschule
+  Baden-Württemberg. It is a trademark of the DHBW and is not covered by the
+  Apache License.

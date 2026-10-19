@@ -150,4 +150,5 @@ Our own VS Code extension, not on the marketplace; source in `tools/latex-review
 
 ## Credits
 
+Repository: Apache License 2.0 (`LICENSE`); credits and third-party terms in `NOTICE`.
 Template: DHBW LaTeX template by Tobias Dreher, Yves Fischer and Michael Gruben, Apache License 2.0 (`thesis/LICENSE`), changed in 2026: local build, VS Code setup, German or English, data block, bug fixes. `harvard.sty` and `agsm.bst` come with TeX Live; `thesis/agsm-de.bst` is `agsm.bst` with German wording, renamed as its license requires.
