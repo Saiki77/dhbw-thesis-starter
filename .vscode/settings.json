@@ -1,0 +1,111 @@
+{
+  // ---- Build with MacTeX's latexmk -----------------------------------------
+  // Absolute command path + explicit PATH pin MacTeX even if another TeX
+  // install (e.g. TinyTeX) is on PATH. Windows/Linux: see CLAUDE.md.
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "/Library/TeX/texbin/latexmk",
+      "args": [
+        "-pdf",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {
+        "PATH": "/Library/TeX/texbin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+      }
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    { "name": "latexmk (Overleaf-equivalent)", "tools": ["latexmk"] }
+  ],
+  "latex-workshop.latex.recipe.default": "first",
+
+  // Build the whole thesis no matter which .tex file is focused (chapters are \input).
+  "latex-workshop.latex.rootFile.useSubFile": false,
+  // Glob instead of a literal path: keeps working if the folder is renamed.
+  "latex-workshop.latex.search.rootFiles.include": ["**/dokumentation.tex"],
+
+  // ---- Overleaf-style live preview ------------------------------------------
+  // onSave (not onFileChange): the build itself writes .aux files, and
+  // onFileChange would see those writes and rebuild forever.
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  // Stop typing -> autosave after 2 s -> build fires. The interval throttles it
+  // so a long typing burst can't queue up builds.
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 2000,
+  "latex-workshop.latex.autoBuild.interval": 3000,
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.pdf.zoom": "page-width",
+  // Fixed port so the viewer URL is stable across sessions (used by the
+  // "PDF follows cursor" extension to open the viewer in the Simple Browser).
+  "latex-workshop.view.pdf.internal.port": 51342,
+  // A multi-pass latexmk run writes the PDF 2-3 times; wait until the writes
+  // stop and refresh once instead of resetting the scroll position each time.
+  "latex-workshop.latex.watch.pdf.delay": 4000,
+
+  // ---- SyncTeX: jump between source and PDF ---------------------------------
+  // After every build the PDF scrolls to the sentence under the cursor. Precise
+  // because the source is written one sentence per line.
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  // Absolute path: VS Code is often launched without /Library/TeX/texbin on its
+  // PATH; then the extension silently falls back to its built-in JS parser,
+  // which returns wrong positions (page 1 / table of contents).
+  "latex-workshop.synctex.path": "/Library/TeX/texbin/synctex",
+  // Forward-sync scrolling is computed from page offsets; spread/wrapped modes
+  // nest pages in wrapper divs and break that math. Pin the plain vertical layout.
+  "latex-workshop.view.pdf.spreadMode": 0,
+  "latex-workshop.view.pdf.scrollMode": 0,
+  "latex-workshop.synctex.indicator": "circle",
+  // Reverse SyncTeX: double-click anywhere in the PDF to jump to that source line.
+  "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
+
+  // ---- LaTeX Review Companion (tools/latex-review-companion) ----------------
+  // Source PDFs for the citation evidence links: thesis/sources/<citekey>.pdf
+  "latexCitations.sourcesDirs": ["sources"],
+
+  // ---- Less noise ------------------------------------------------------------
+  // Don't pop the problems panel for spacing warnings
+  "latex-workshop.message.badbox.show": "none",
+  "latex-workshop.message.information.show": false,
+  "latex-workshop.latex.autoBuild.cleanAndRetry.enabled": true,
+
+  // ---- Keep aux clutter out of the explorer / clean it on demand ------------
+  "latex-workshop.latex.autoClean.run": "never",
+  "latex-workshop.latex.clean.subfolder.enabled": true,
+  "latex-workshop.latex.clean.fileTypes": [
+    "*.aux", "*.bbl", "*.blg", "*.idx", "*.ind", "*.lof", "*.lot", "*.lol",
+    "*.out", "*.toc", "*.acn", "*.acr", "*.alg", "*.glg", "*.glo",
+    "*.gls", "*.glsdefs", "*.ist", "*.fls", "*.log", "*.fdb_latexmk",
+    "*.synctex.gz", "*.cut"
+  ],
+  "files.exclude": {
+    "**/*.aux": true,
+    "**/*.bbl": true,
+    "**/*.blg": true,
+    "**/*.fdb_latexmk": true,
+    "**/*.fls": true,
+    "**/*.log": true,
+    "**/*.out": true,
+    "**/*.toc": true,
+    "**/*.lof": true,
+    "**/*.lot": true,
+    "**/*.lol": true,
+    "**/*.acn": true,
+    "**/*.acr": true,
+    "**/*.alg": true,
+    "**/*.glg": true,
+    "**/*.glo": true,
+    "**/*.gls": true,
+    "**/*.glsdefs": true,
+    "**/*.ist": true,
+    "**/*.cut": true,
+    "**/*.synctex.gz": true
+  },
+
+  "files.associations": { "*.tex": "latex" },
+  "editor.wordWrap": "on",
+  "[latex]": { "editor.wordWrap": "on", "editor.tabSize": 2 }
+}

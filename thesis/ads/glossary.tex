@@ -1,0 +1,15 @@
+%!TEX root = ../dokumentation.tex
+
+%
+% Glossareintraege --> referenz, name, beschreibung
+% Aufruf im Text mit \gls{...}; \glsaddall in dokumentation.tex sorgt dafuer,
+% dass alle Eintraege gedruckt werden, auch die im Text nicht verlinkten.
+%
+
+\newglossaryentry{synctex}{name={SyncTeX},
+  description={Verknüpfung zwischen Quelltext und PDF: Ein Sprung im einen
+  landet an der passenden Stelle im anderen}}
+
+\newglossaryentry{latexmk}{name={latexmk},
+  description={Build-Werkzeug, das pdflatex, BibTeX und makeglossaries so oft
+  aufruft, bis alle Verweise aufgelöst sind}}

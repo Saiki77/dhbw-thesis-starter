@@ -1,0 +1,14 @@
+%!TEX root = ../dokumentation.tex
+
+\chapter*{\abkuerzungstitel}
+% Im Text: \ac{API} schreibt beim ersten Mal die Langform (als Fußnote), danach
+% nur die Abkürzung. Gedruckt werden nur Abkürzungen, die im Text per \ac{}
+% vorkommen (printonlyused); ohne jedes \ac{} bleibt die Liste leer.
+% [WYSIWYG] = längste Abkürzung, bestimmt die Spaltenbreite.
+\begin{acronym}[WYSIWYG]
+\setlength{\itemsep}{-\parsep}
+
+\acro{API}{Application Programming Interface}
+\acro{DHBW}{Duale Hochschule Baden-Württemberg}
+\acro{PDF}{Portable Document Format}
+\end{acronym}

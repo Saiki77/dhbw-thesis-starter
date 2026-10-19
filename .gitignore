@@ -1,0 +1,34 @@
+# LaTeX build artefacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.lol
+*.synctex.gz
+*.run.xml
+*.cut
+
+# glossaries
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.ist
+
+# output, and source PDFs in thesis/sources/ (often copyrighted, stay local)
+*.pdf
+!thesis/images/**/*.pdf
+
+# editors
+.DS_Store
+.idea/*
+!.idea/runConfigurations/

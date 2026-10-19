@@ -1,0 +1,8 @@
+{
+  // LaTeX Review Companion is not on the marketplace: setup.sh installs it
+  // from tools/latex-review-companion-0.4.0.vsix.
+  "recommendations": [
+    "james-yu.latex-workshop",
+    "ltex-plus.vscode-ltex-plus"
+  ]
+}

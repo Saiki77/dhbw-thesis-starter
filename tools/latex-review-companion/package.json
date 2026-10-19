@@ -1,0 +1,94 @@
+{
+	"name": "latex-review-companion",
+	"displayName": "LaTeX Review Companion",
+	"description": "PDF preview that follows your cursor (SyncTeX), clickable evidence markers linking every citation in the built PDF to its source PDF, and a bibliography integrity check.",
+	"version": "0.4.0",
+	"publisher": "local",
+	"icon": "icon.png",
+	"engines": {
+		"vscode": "^1.80.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onLanguage:latex",
+		"onStartupFinished"
+	],
+	"main": "./extension.js",
+	"extensionDependencies": [
+		"james-yu.latex-workshop"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "latexFollow.toggle",
+				"title": "LaTeX: Toggle PDF follows cursor"
+			},
+			{
+				"command": "latexFollow.openPreview",
+				"title": "LaTeX: Open PDF preview (Simple Browser, sync-safe)"
+			},
+			{
+				"command": "latexCitations.check",
+				"title": "LaTeX Citations: Check citations against bibliography"
+			},
+			{
+				"command": "latexCitations.enableEvidence",
+				"title": "LaTeX Citations: Enable evidence links (refreshes map)"
+			},
+			{
+				"command": "latexCitations.disableEvidence",
+				"title": "LaTeX Citations: Disable evidence links"
+			},
+			{
+				"command": "latexCitations.toggleServer",
+				"title": "LaTeX Citations: Toggle evidence PDF server"
+			}
+		],
+		"keybindings": [
+			{
+				"command": "latexFollow.toggle",
+				"key": "ctrl+alt+w",
+				"mac": "cmd+alt+w"
+			},
+			{
+				"command": "latexFollow.openPreview",
+				"key": "ctrl+alt+p",
+				"mac": "cmd+alt+p"
+			}
+		],
+		"configuration": {
+			"title": "LaTeX Citation Evidence",
+			"properties": {
+				"latexCitations.port": {
+					"type": "number",
+					"default": 8765,
+					"description": "Port for the local server that serves source PDFs to the evidence links."
+				},
+				"latexCitations.sourcesDirs": {
+					"type": "array",
+					"items": { "type": "string" },
+					"default": ["sources/verified", "sources/pdf"],
+					"description": "Directories (relative to the root .tex) searched for <citekey>.pdf source files, in priority order."
+				},
+				"latexCitations.markerSymbol": {
+					"type": "string",
+					"default": "$\\triangleright$",
+					"description": "LaTeX snippet rendered as the evidence marker after each citation."
+				},
+				"latexCitations.markerColor": {
+					"type": "string",
+					"default": "blue!70!black",
+					"description": "xcolor expression for the evidence marker."
+				},
+				"latexCitations.backend": {
+					"type": "string",
+					"enum": ["auto", "harvard", "natbib"],
+					"default": "auto",
+					"description": "Citation package whose \\citep/\\citet get wrapped with evidence markers. 'auto' detects from the preamble."
+				}
+			}
+		}
+	}
+}

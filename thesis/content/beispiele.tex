@@ -1,0 +1,109 @@
+%!TEX root = ../dokumentation.tex
+% SPICKZETTEL: jedes Element der Vorlage einmal. Im PDF steht das Ergebnis,
+% hier der Quelltext dazu. Zum Entfernen die Zeile \input{content/beispiele}
+% in dokumentation.tex löschen.
+
+\chapter{Beispiele (Spickzettel)}\label{ch:beispiele}
+
+Dieses Kapitel zeigt jedes Element der Vorlage einmal.
+Den Quelltext dazu enthält \texttt{content/beispiele.tex}.
+
+\section{Zitieren}\label{sec:bsp-zitieren}
+
+Ein Beleg in Klammern steht am Satzende \citep{shannon1948mathematical}.
+Mit Seitenangabe sieht er so aus \citep[S.~42]{knuth1984texbook}.
+Im Satz zitiert: \citet{vaswani2017attention} stellen die Transformer-Architektur vor.
+Online-Quellen tragen ihre URL im Literaturverzeichnis \citep{overleaf2026bibtex}.
+Neue Quellen kommen in \texttt{literatur.bib}; das Literaturverzeichnis zeigt nur zitierte Einträge.
+
+\section{Abkürzungen und Glossar}\label{sec:bsp-abkuerzungen}
+
+Die erste Verwendung von \ac{API} schreibt die Langform aus, danach steht nur noch \ac{API}.
+Glossarbegriffe wie \gls{synctex} werden mit dem Glossar verlinkt.
+
+\section{Abbildungen}\label{sec:bsp-abbildungen}
+
+\autoref{fig:bsp-bild} zeigt ein Bild; eigene Bilder liegen in \texttt{images/}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\textwidth]{example-image}
+  \caption{Beispielbild: Dateiname ohne Endung angeben}
+  \label{fig:bsp-bild}
+\end{figure}
+
+\section{Diagramme}\label{sec:bsp-diagramme}
+
+\autoref{fig:bsp-diagramm} nutzt den TikZ-Stilbaukasten aus \texttt{ads/header.tex}.
+Die Farbe aller Diagramme steuert \texttt{akzent} an einer Stelle.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{adjustbox}{max width=\textwidth}
+  \begin{tikzpicture}[flow, node distance=6mm and 8mm]
+    \node[fio]                   (in)   {Eingabe};
+    \node[fstage, right=of in]   (prep) {Vorverarbeitung};
+    \node[fgate,  right=of prep] (gate) {sicher?};
+    \node[fkey,   right=of gate] (key)  {teurer\\Schritt};
+    \node[fio,    right=of key]  (out)  {Ausgabe};
+    \node[fmuted, below=of gate] (fast) {schneller Pfad};
+    \draw[fedge] (in) -- (prep);
+    \draw[fedge] (prep) -- (gate);
+    \draw[fedge] (gate) -- node[flab, above] {nein} (key);
+    \draw[fcond] (gate) -- node[flab, right] {ja} (fast);
+    \draw[fedge] (key) -- (out);
+    \draw[fcond] (fast) -| (out);
+    \node[fnote, below=1mm of in] {Schritt 1};
+  \end{tikzpicture}
+  \end{adjustbox}
+  \caption[Beispieldiagramm]{Beispieldiagramm mit den Stilen \texttt{fio}, \texttt{fstage}, \texttt{fgate}, \texttt{fkey} und \texttt{fmuted}. Der Kurztitel in eckigen Klammern erscheint im Abbildungsverzeichnis.}
+  \label{fig:bsp-diagramm}
+\end{figure}
+
+\section{Tabellen}\label{sec:bsp-tabellen}
+
+\autoref{tab:bsp-tabelle} nutzt \texttt{booktabs}: nur waagerechte Linien, die Beschriftung steht oben.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Beispieltabelle}
+  \label{tab:bsp-tabelle}
+  \begin{tabular}{lrr}
+    \toprule
+    Variante & Genauigkeit & Zeit pro Dokument \\
+    \midrule
+    Variante A & 72,4\,\% & 3\,ms \\
+    Variante B & 88,0\,\% & 40\,ms \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Quellcode}\label{sec:bsp-quellcode}
+
+\autoref{lst:bsp-code} zeigt ein Listing; die Sprache stellt \texttt{[language=Java]} pro Listing um.
+
+\begin{lstlisting}[caption={Beispiel-Listing in Python}, label={lst:bsp-code}]
+def begruessung(name: str) -> str:
+    # Umlaute im Code funktionieren: äöü ß
+    return f"Hallo, {name}!"
+\end{lstlisting}
+
+\section{Formeln}\label{sec:bsp-formeln}
+
+Nummerierte Formeln stehen in einer \texttt{equation}-Umgebung, \eqref{eq:bsp-f1} verweist darauf.
+\begin{equation}
+  F_1 = \frac{2 \cdot P \cdot R}{P + R}
+  \label{eq:bsp-f1}
+\end{equation}
+
+\section{Sonstiges}\label{sec:bsp-sonstiges}
+
+Eine Fußnote hängt direkt am Wort.\footnote{So sieht eine Fußnote aus.}
+\enquote{Anführungszeichen} setzt \texttt{\textbackslash enquote} passend zur Sprache.
+Querverweise mit \texttt{\textbackslash autoref} schreiben die Art des Ziels selbst davor: \autoref{sec:bsp-zitieren}, \autoref{fig:bsp-bild}, \autoref{tab:bsp-tabelle}.
+Beträge mit Euro: 120\,\euro{}.
+
+\begin{notiz}
+Rote Entwurfsnotiz für dich selbst.
+Vor der Abgabe blendet \texttt{\textbackslash excludecomment\{notiz\}} in \texttt{ads/header.tex} alle Notizen aus.
+\end{notiz}

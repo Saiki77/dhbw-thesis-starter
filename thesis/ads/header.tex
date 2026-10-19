@@ -1,0 +1,240 @@
+%!TEX root = ../dokumentation.tex
+%
+% Alle Stil-Einstellungen der Arbeit, in Abschnitten:
+%    1 Seite und Zeilen          6 Quellcode
+%    2 Schrift                   7 Sonstiges (Fußnoten, Entwurfsnotizen)
+%    3 Sprache                   8 Links und PDF-Infos (hyperref)
+%    4 Farben                    9 Zitierweise
+%    5 Abbildungen, Tabellen,   10 Glossar und Abkürzungen
+%      Diagramme (TikZ-Stile)
+% Persönliche Angaben stehen nicht hier, sondern oben in dokumentation.tex.
+% Reihenfolge beachten: hyperref (8) lädt spät; 9 und 10 brauchen es.
+%
+
+%% ---- 1 Seite und Zeilen --------------------------------------------
+% Seitenränder: fullpage = rundum ca. 2,5 cm. Feste Maße stattdessen:
+%   \usepackage[left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage{fullpage}
+
+% Zeilenabstand: onehalfspacing = 1,5-zeilig; singlespacing, doublespacing
+% oder freier Wert mit \setstretch{1.3} nach dem Laden.
+\usepackage[onehalfspacing]{setspace}
+
+% Hurenkinder und Schusterjungen verhindern
+% http://projekte.dante.de/DanteFAQ/Silbentrennung
+\clubpenalty=10000
+\widowpenalty=10000
+\displaywidowpenalty=10000
+
+%% ---- 2 Schrift -----------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% Schriftart Palatino. Alternativen (eine Zeile statt palatino):
+%   \usepackage{lmodern}               Latin Modern (LaTeX-Standard)
+%   \usepackage{libertine}             Linux Libertine
+%   \usepackage{mathptmx}              Times
+%   \usepackage{newpxtext,newpxmath}   Palatino-Klon mit passender Mathe
+\usepackage{palatino}
+
+% Zeilenumbruch und mehr
+\usepackage[activate]{microtype}
+
+% Überschriften setzt KOMA-Script serifenlos fett. In der Textschrift:
+%\addtokomafont{disposition}{\rmfamily}
+
+%% ---- 3 Sprache -----------------------------------------------------
+% Umgeschaltet mit \englischtrue / \englischfalse in dokumentation.tex.
+% main= explizit: 'ngerman' steht auch in den Klassenoptionen und wird
+% global durchgereicht, wodurch die reine Reihenfolge nicht mehr entscheidet.
+\ifenglisch
+	\usepackage[ngerman,main=english]{babel}
+\else
+	\usepackage[english,main=ngerman]{babel}
+\fi
+
+% Anführungszeichen: \enquote{...} setzt sie passend zur Sprache
+\usepackage[babel,german=quotes]{csquotes}
+
+% Überschriften, die babel nicht kennt
+\ifenglisch
+	\newcommand{\abkuerzungstitel}{List of Abbreviations}
+	\newcommand{\glossartitel}{Glossary}
+\else
+	\newcommand{\abkuerzungstitel}{Abkürzungsverzeichnis}
+	\newcommand{\glossartitel}{Glossar}
+\fi
+
+% Index-Erstellung
+\usepackage{makeidx}
+
+%% ---- 4 Farben ------------------------------------------------------
+% xcolor, not color: listings and TikZ load xcolor later, and definitions made
+% with plain `color` then raise "Incompatible color definition".
+\usepackage{xcolor}
+% Farbe aller Links im PDF. Für den Druck schwarz: {rgb}{0,0,0}
+\definecolor{LinkColor}{rgb}{0,0,0.2}
+% Grundfarbe aller TikZ-Diagramme (Abschnitt 5), z.B. blue!60!black
+\colorlet{akzent}{black}
+
+%% ---- 5 Abbildungen, Tabellen, Diagramme ----------------------------
+% Grafiken liegen in images/; Dateiname ohne Endung angeben.
+\usepackage{graphicx}
+\graphicspath{{images/}}
+
+% Gleitumgebungen (Bilder, Tabellen, usw\ldots) lassen sich mit H an genau der
+% definierten Stelle platzieren
+\usepackage{float}
+
+% für textumflossene Grafiken
+\usepackage{wrapfig}
+
+% Tabellen: booktabs (\toprule, \midrule, \bottomrule), tabularx (Spalten
+% füllen die Breite), array (vertikale Platzierung), longtable (über Seiten).
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{longtable}
+% Gilt für ALLE Tabellen, auch das Deckblatt: Spaltenabstand und Zeilenhöhe
+\setlength{\tabcolsep}{10pt}
+\renewcommand{\arraystretch}{1.5}
+
+% Formeln
+\usepackage{amsmath}
+%\usepackage{amssymb}
+
+% Pakete um Textteile drehen zu können, oder eine Seite Querformat anzeigen kann.
+%\usepackage{rotating}
+%\usepackage{lscape}
+
+% TikZ-Diagramme mit einem gemeinsamen Stilbaukasten, damit alle Diagramme
+% gleich aussehen. Farbe zentral über 'akzent' (Abschnitt 4).
+%   flow   = Grundstil fürs Bild:  \begin{tikzpicture}[flow]
+%   fio    = Ein-/Ausgabe (gerundet, leicht gefüllt)
+%   fstage = Verarbeitungsschritt
+%   fkey   = hervorgehobener Schritt (dunkler gefüllt)
+%   fmuted = Nebenschritt (heller Rahmen, graue Schrift)
+%   fgate  = Entscheidung (Raute)
+%   fedge  = Pfeil;  fcond = bedingter Pfeil (gestrichelt)
+%   flab   = Beschriftung an einem Pfeil;  fnote = kleine Randnotiz
+% Beispiel: content/beispiele.tex
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc}
+% Diagramme nie breiter als der Satzspiegel: max width verkleinert nur,
+% vergroessert aber nie (im Gegensatz zu \resizebox).
+\usepackage{adjustbox}
+\tikzset{
+  flow/.style={font=\footnotesize\sffamily, line cap=round},
+  fio/.style={draw=akzent!70, fill=akzent!8, rounded corners=2.2mm, inner xsep=2.4mm, inner ysep=1.5mm, align=center},
+  fstage/.style={draw=akzent, line width=0.7pt, fill=white, rounded corners=0.6mm, inner xsep=2.4mm, inner ysep=1.6mm, align=center},
+  fkey/.style={fstage, fill=akzent!15},
+  fmuted/.style={draw=akzent!35, fill=white, rounded corners=0.6mm, inner xsep=2.2mm, inner ysep=1.5mm, align=center, text=black!60},
+  fgate/.style={draw=akzent!50, fill=akzent!4, diamond, aspect=2.4, inner sep=0.8mm, align=center},
+  fedge/.style={-{Stealth[length=2mm]}, draw=akzent!55, semithick},
+  fcond/.style={fedge, dashed},
+  flab/.style={font=\scriptsize\sffamily, text=black!60, inner sep=1pt, fill=white},
+  fnote/.style={font=\scriptsize\sffamily, text=black!45, inner sep=1pt},
+}
+
+%% ---- 6 Quellcode ---------------------------------------------------
+% listings statt minted: braucht kein -shell-escape und kein Python.
+% Sprache pro Listing ändern: \begin{lstlisting}[language=Java]
+\usepackage{listings}
+\definecolor{noteframe}{gray}{0.55}
+\lstset{
+  basicstyle=\ttfamily\scriptsize,
+  keywordstyle=\color{black}\bfseries,
+  commentstyle=\itshape\color{noteframe},
+  stringstyle=\color{black},
+  numbers=left, numberstyle=\tiny\color{noteframe}, numbersep=7pt,
+  frame=leftline, framesep=6pt, rulecolor=\color{noteframe},
+  breaklines=true, breakatwhitespace=false, breakindent=12pt,
+  showstringspaces=false, tabsize=2, columns=fullflexible,
+  language=Python, upquote=true, aboveskip=10pt, belowskip=10pt,
+  captionpos=b, xleftmargin=10pt,
+  % listings reads its body byte by byte, so every non-ASCII character that
+  % appears in the source code needs an explicit mapping.
+  extendedchars=true, inputencoding=utf8,
+  literate={ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+           {Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+           {ß}{{\ss}}1 {–}{{--}}1 {—}{{---}}1
+           {─}{{-}}1,
+}
+\renewcommand{\lstlistingname}{Listing}
+\ifenglisch\else\renewcommand{\lstlistlistingname}{Quellcodeverzeichnis}\fi
+
+%% ---- 7 Sonstiges ---------------------------------------------------
+% Fussnoten
+\usepackage[perpage, hang, multiple, stable]{footmisc}
+
+% für die Darstellung des Euro-Symbols: \euro{}
+\usepackage[right]{eurosym}
+
+% Entwurfsnotizen: \begin{notiz} ... \end{notiz} wird rot gedruckt.
+% Vor der Abgabe \excludecomment{notiz} einkommentieren: alle Notizen verschwinden.
+% (Nicht 'k' nennen: \k ist der Ogonek-Akzent für ą/ę, den hyperref neu definiert.)
+\usepackage{comment}
+% Zwischendatei als dokumentation.cut statt comment.cut, damit latexmk -c sie aufräumt
+\def\DefaultCutFileName{\def\CommentCutFile{\jobname.cut}}
+\specialcomment{notiz}{\begingroup\color{red}}{\endgroup}
+%\excludecomment{notiz}
+
+%% ---- 8 Links und PDF-Infos -----------------------------------------
+\usepackage[%
+	pdftitle={\titel},
+	pdfauthor={\autor},
+	pdfsubject={\arbeit},
+	pdfcreator={pdflatex, LaTeX with KOMA-Script},
+	pdfpagemode=UseOutlines, % Beim Oeffnen Inhaltsverzeichnis anzeigen
+	pdfdisplaydoctitle=true, % Dokumenttitel statt Dateiname anzeigen.
+]{hyperref}
+
+% (Farb-)einstellungen für die Links im PDF.
+% Ganz ohne farbige Links: colorlinks=false, hidelinks
+\hypersetup{%
+	colorlinks=true, % Aktivieren von farbigen Links im Dokument
+	linkcolor=LinkColor, % Farbe festlegen
+	citecolor=LinkColor,
+	filecolor=LinkColor,
+	menucolor=LinkColor,
+	urlcolor=LinkColor,
+	bookmarksnumbered=true % Überschriftsnummerierung im PDF Inhalt anzeigen.
+}
+\ifenglisch\hypersetup{pdflang=en}\else\hypersetup{pdflang=de}\fi
+
+% \autoref{lst:...} schreibt "Listing" vor die Nummer
+\providecommand*{\lstlistingautorefname}{Listing}
+
+%nur ein latex-Durchlauf für die Aktualisierung von Verzeichnissen nötig
+\usepackage{bookmark}
+
+%% ---- 9 Zitierweise -------------------------------------------------
+% Literaturverweise nach Harvard (Autor, Jahr) mit agsm.bst
+\usepackage[dcucite]{harvard}
+\ifenglisch\renewcommand{\harvardand}{and}\else\renewcommand{\harvardand}{und}\fi
+% agsm.bst emits \harvardurl{<raw url>}; the original grabs its argument
+% normally, so any '_' in a URL raises "Missing $ inserted".
+% Handing the braces straight to \url makes it read them verbatim.
+\AtBeginDocument{\renewcommand{\harvardurl}{\textbf{URL:} \url}}
+% Ab drei Autoren immer (Autor et al., Jahr)
+\citationmode{abbr}
+
+% Zitierbefehle (natbib-Namen; harvard.sty kennt dieselben Formen unter
+% anderem Namen):
+%   \citep{key}          -> (Autor, Jahr)        == \cite{key}
+%   \citep[S.~12]{key}   -> (Autor, Jahr, S. 12)
+%   \citet{key}          -> Autor (Jahr)         == \citeasnoun{key}
+\newcommand{\citep}[2][]{\if\relax\detokenize{#1}\relax\cite{#2}\else\cite[#1]{#2}\fi}
+\newcommand{\citet}[2][]{\if\relax\detokenize{#1}\relax\citeasnoun{#2}\else\citeasnoun[#1]{#2}\fi}
+
+%% ---- 10 Glossar und Abkürzungen ------------------------------------
+% Glossar
+\usepackage[
+	nonumberlist, %keine Seitenzahlen anzeigen
+	%acronym,      %ein Abkürzungsverzeichnis erstellen
+	%section,     %im Inhaltsverzeichnis auf section-Ebene erscheinen
+	toc,          %Einträge im Inhaltsverzeichnis
+]{glossaries}
+
+% Akronyme: \ac{API} -- beim ersten Mal ausgeschrieben (als Fußnote)
+\usepackage[printonlyused,footnote]{acronym}

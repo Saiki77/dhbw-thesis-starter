@@ -1,0 +1,153 @@
+%%**************************************************************
+%% Vorlage fuer Bachelorarbeiten (o.ä.) der DHBW
+%%
+%% Autor: Tobias Dreher, Yves Fischer
+%% Datum: 06.07.2011
+%%
+%% Autor: Michael Gruben
+%% Datum: 15.05.2013
+%%
+%% Geaendert 2026: lokaler Build mit latexmk, VS-Code-Live-Vorschau,
+%% Sprachschalter, alle Angaben in einem Block, Bugfixes.
+%% Lizenz: Apache 2.0 (siehe LICENSE). Anleitung: CLAUDE.md im Hauptordner.
+%%**************************************************************
+\documentclass[%
+	enabledeprecatedfontcommands, % agsm.bst schreibt \bf ins Literaturverzeichnis
+	pdftex,
+	oneside,		% Einseitiger Druck.
+	12pt,			% Schriftgroesse
+	parskip=half,	% Halbe Zeile Abstand zwischen Absätzen.
+	headsepline,	% Linie nach Kopfzeile.
+	footsepline,	% Linie vor Fusszeile.
+	abstract=true,	% Überschrift über dem Abstract
+	ngerman,		% Translator
+]{scrreprt}
+
+%% ==============================================================
+%%  DEINE ANGABEN -- nur dieser Block muss ausgefüllt werden.
+%%  Leeres Feld = die Zeile entfällt auf dem Deckblatt,
+%%  z.B. \newcommand{\gutachter}{}
+%%  Ein & immer als \& schreiben.
+%% ==============================================================
+\newif\ifenglisch
+\englischfalse      % \englischtrue = Arbeit auf Englisch (Text, Verzeichnisse, Zitate)
+\newif\ifsperrvermerk
+\sperrvermerktrue   % \sperrvermerkfalse = ohne Sperrvermerk-Seite
+
+\newcommand{\titel}{Titel der Arbeit}
+\newcommand{\untertitel}{Untertitel der Arbeit}
+\newcommand{\arbeit}{Projektarbeit (T2000)}     % Art der Arbeit, z.B. Bachelorarbeit (T3300)
+\newcommand{\autor}{Vorname Nachname}
+\newcommand{\matrikelnr}{1234567}
+\newcommand{\kurs}{TINF24A}
+\newcommand{\studiengang}{Informatik}
+\newcommand{\studienrichtung}{Angewandte Informatik}
+\newcommand{\standort}{Mannheim}                % DHBW-Standort
+\newcommand{\firma}{Musterfirma GmbH \& Co. KG}
+\newcommand{\firmenort}{Musterstraße 1, 12345 Musterstadt}
+\newcommand{\betreuer}{Vorname Nachname}        % Betreuer der Ausbildungsfirma
+\newcommand{\gutachter}{Prof. Dr. Vorname Nachname} % Gutachter der DHBW
+\newcommand{\zeitraum}{12 Wochen}
+\newcommand{\datumAbgabe}{01.09.2026}
+\newcommand{\abgabeort}{Mannheim}
+%% ==============================================================
+
+\input{ads/header}
+
+\makeglossaries
+\input{ads/glossary}
+
+\begin{document}
+
+	% Deckblatt
+	\begin{spacing}{1}
+		\input{ads/deckblatt}
+	\end{spacing}
+	\newpage
+
+	\renewcommand{\thepage}{\Roman{page}}
+	\setcounter{page}{1}
+
+	% Sperrvermerk (abschalten oben mit \sperrvermerkfalse)
+	\ifsperrvermerk
+		\input{ads/sperrvermerk}
+		\newpage
+	\fi
+
+	% Erklärung
+	\input{ads/erklaerung}
+	\newpage
+
+	% Abstract
+	\input{ads/abstract}
+	\newpage
+
+	\pagestyle{plain}
+
+	% Inhaltsverzeichnis
+	\begin{spacing}{1.1}
+		% 2 = Kapitel bis Unterkapitel (1.1.1) im Inhaltsverzeichnis
+		\setcounter{tocdepth}{2}
+		\tableofcontents
+	\end{spacing}
+	\newpage
+
+	\renewcommand{\thepage}{\arabic{page}}
+	\setcounter{page}{1}
+
+	% Inhalt -- neue Kapitel als Datei in content/ anlegen und hier eintragen
+	\input{content/01-einleitung}
+	\input{content/02-grundlagen}
+	\input{content/03-methodik}
+	\input{content/04-umsetzung}
+	\input{content/05-ergebnisse}
+	\input{content/06-fazit}
+	\input{content/beispiele} % Spickzettel mit allen Elementen -- Zeile löschen, wenn nicht mehr gebraucht
+
+	% Anhang: \appendix steht in der Datei, die Kapitel heißen dann A, B, ...
+	\input{content/anhang}
+
+	% Verzeichnisse
+	\clearpage
+	\pagenumbering{roman}
+
+	% Abbildungsverzeichnis
+	\cleardoublepage
+	\phantomsection \label{listoffig}
+	\addcontentsline{toc}{chapter}{\listfigurename}
+	\listoffigures
+
+	% Tabellenverzeichnis
+	\cleardoublepage
+	\phantomsection \label{listoftab}
+	\addcontentsline{toc}{chapter}{\listtablename}
+	\listoftables
+
+	% Quellcodeverzeichnis (optional)
+	%\cleardoublepage
+	%\phantomsection \label{listoflst}
+	%\addcontentsline{toc}{chapter}{\lstlistlistingname}
+	%\lstlistoflistings
+
+	% Literaturverzeichnis
+	\cleardoublepage
+	\phantomsection \label{listoflit}
+	\addcontentsline{toc}{chapter}{\bibname}
+
+	% Stil: agsm = Harvard (Autor, Jahr). Andere Stile, die mit harvard.sty
+	% funktionieren: dcu, kluwer, jmr, apsr, nederlands, jphysicsB.
+	\bibliographystyle{agsm}
+	\bibliography{literatur}
+
+	% Abkürzungsverzeichnis (zeigt nur Abkürzungen, die im Text per \ac{} vorkommen)
+	\cleardoublepage
+	\phantomsection \label{listofacs}
+	\addcontentsline{toc}{chapter}{\abkuerzungstitel}
+	\input{ads/acronyms}
+
+	% Glossar
+	% \glsaddall druckt alle Einträge aus ads/glossary.tex, auch die im Text
+	% nicht per \gls{} verlinkten.
+	\glsaddall
+	\printglossary[style=altlist,title=\glossartitel]
+\end{document}
