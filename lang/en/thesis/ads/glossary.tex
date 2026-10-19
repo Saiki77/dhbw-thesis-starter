@@ -1,0 +1,15 @@
+%!TEX root = ../dokumentation.tex
+
+%
+% Glossary entries --> key, name, description
+% Link them in the text with \gls{...}; \glsaddall in dokumentation.tex prints
+% every entry, including the ones the text does not link.
+%
+
+\newglossaryentry{synctex}{name={SyncTeX},
+  description={Link between source and PDF: a jump in one lands at the
+  matching place in the other}}
+
+\newglossaryentry{latexmk}{name={latexmk},
+  description={Build tool that runs pdflatex, BibTeX and makeglossaries as
+  often as needed until all references are resolved}}

@@ -115,7 +115,11 @@ fi
 
 echo
 if [ ${#todo[@]} -eq 0 ]; then
-  echo "Ready. Open the project with:  open -a \"Visual Studio Code\" \"$PWD\""
+  echo "Ready."
+  if [ -d lang ]; then
+    echo "Choose the thesis language once:  ./set-language.sh de   or   ./set-language.sh en"
+  fi
+  echo "Open the project with:  open -a \"Visual Studio Code\" \"$PWD\""
   echo "then open thesis/dokumentation.tex and press Cmd+Alt+V for the PDF preview."
 else
   echo "Still to do, then run ./setup.sh again:"

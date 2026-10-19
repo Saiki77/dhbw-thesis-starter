@@ -1,6 +1,7 @@
 %!TEX root = ../dokumentation.tex
 % Deckblatt. Alle Inhalte kommen aus dem Angaben-Block in dokumentation.tex.
-% Ein leeres Feld lässt seine Zeile weg.
+% Ein leeres Feld lässt seine Zeile weg. Die festen Texte folgen der Sprache
+% der Arbeit: \deen{deutsch}{english}.
 
 % \deckblock{Abstand}{Format oder Vortext}{\feld}: zentrierte Zeile
 \newcommand{\deckblock}[3]{\if\relax\detokenize\expandafter{#3}\relax\else\vspace*{#1}{#2#3}\\\fi}
@@ -15,27 +16,27 @@
 	\end{longtable}
 	\enlargethispage{20mm}
 	\begin{center}
-		\vspace*{12mm}	Duale Hochschule Baden-Württemberg \standort\\
+		\vspace*{12mm}	\deen{Duale Hochschule Baden-Württemberg}{Baden-Wuerttemberg Cooperative State University} \standort\\
 		\vspace*{12mm}	{\LARGE\bfseries \titel}\\
 		\deckblock{4mm}{\large}{\untertitel}
 		\vspace*{12mm}	{\large\bfseries \arbeit}\\
-		\deckblock{12mm}{Studiengang~}{\studiengang}
-		\deckblock{3mm}{Studienrichtung~}{\studienrichtung}
-		\vspace*{3mm}	an der Dualen Hochschule Baden-Württemberg \standort\\
-		\vspace*{12mm}	von\\
+		\deckblock{12mm}{\deen{Studiengang}{Study program}~}{\studiengang}
+		\deckblock{3mm}{\deen{Studienrichtung}{Specialization}~}{\studienrichtung}
+		\vspace*{3mm}	\deen{an der Dualen Hochschule Baden-Württemberg}{at the Baden-Wuerttemberg Cooperative State University} \standort\\
+		\vspace*{12mm}	\deen{von}{by}\\
 		\vspace*{3mm}	{\large\bfseries \autor}\\
 		\vspace*{12mm}	\datumAbgabe\\
 	\end{center}
 	\vfill
 	\begin{spacing}{1.2}
 	\begin{tabbing}
-		\textbf{Gutachter der Dualen Hochschule}\quad \= \kill
-		\deckzeile{Bearbeitungszeitraum}{\zeitraum}
-		\textbf{Matrikelnummer, Kurs} \> \matrikelnr, \kurs\\
-		\deckzeile{Ausbildungsfirma}{\firma}
+		\textbf{\deen{Gutachter der Dualen Hochschule}{In-company supervisor}}\quad \= \kill
+		\deckzeile{\deen{Bearbeitungszeitraum}{Processing period}}{\zeitraum}
+		\textbf{\deen{Matrikelnummer, Kurs}{Student ID, course}} \> \matrikelnr, \kurs\\
+		\deckzeile{\deen{Ausbildungsfirma}{Partner company}}{\firma}
 		\deckzeile{}{\firmenort}
-		\deckzeile{Betreuer der Ausbildungsfirma}{\betreuer}
-		\deckzeile{Gutachter der Dualen Hochschule}{\gutachter}
+		\deckzeile{\deen{Betreuer der Ausbildungsfirma}{In-company supervisor}}{\betreuer}
+		\deckzeile{\deen{Gutachter der Dualen Hochschule}{University reviewer}}{\gutachter}
 	\end{tabbing}
 	\end{spacing}
 \end{titlepage}

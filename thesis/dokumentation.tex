@@ -24,32 +24,34 @@
 ]{scrreprt}
 
 %% ==============================================================
-%%  DEINE ANGABEN -- nur dieser Block muss ausgefüllt werden.
-%%  Leeres Feld = die Zeile entfällt auf dem Deckblatt,
-%%  z.B. \newcommand{\gutachter}{}
-%%  Ein & immer als \& schreiben.
+%%  DEINE ANGABEN / YOUR DATA -- nur dieser Block / only this block
+%%  Leeres Feld = Zeile entfällt auf dem Deckblatt / empty field =
+%%  row dropped from the title page, e.g. \newcommand{\gutachter}{}
+%%  & immer als \& schreiben / always write & as \&
 %% ==============================================================
+% Sprache / language: einmal mit ./set-language.sh de|en wählen /
+% choose once with ./set-language.sh de|en (sets this switch and the skeleton)
 \newif\ifenglisch
-\englischfalse      % \englischtrue = Arbeit auf Englisch (Text, Verzeichnisse, Zitate)
+\englischfalse
 \newif\ifsperrvermerk
-\sperrvermerktrue   % \sperrvermerkfalse = ohne Sperrvermerk-Seite
+\sperrvermerktrue   % \sperrvermerkfalse = ohne Sperrvermerk / no confidentiality page
 
-\newcommand{\titel}{Titel der Arbeit}
-\newcommand{\untertitel}{Untertitel der Arbeit}
-\newcommand{\arbeit}{Projektarbeit (T2000)}     % Art der Arbeit, z.B. Bachelorarbeit (T3300)
-\newcommand{\autor}{Vorname Nachname}
-\newcommand{\matrikelnr}{1234567}
-\newcommand{\kurs}{TINF24A}
-\newcommand{\studiengang}{Informatik}
-\newcommand{\studienrichtung}{Angewandte Informatik}
-\newcommand{\standort}{Mannheim}                % DHBW-Standort
-\newcommand{\firma}{Musterfirma GmbH \& Co. KG}
-\newcommand{\firmenort}{Musterstraße 1, 12345 Musterstadt}
-\newcommand{\betreuer}{Vorname Nachname}        % Betreuer der Ausbildungsfirma
-\newcommand{\gutachter}{Prof. Dr. Vorname Nachname} % Gutachter der DHBW
-\newcommand{\zeitraum}{12 Wochen}
-\newcommand{\datumAbgabe}{01.09.2026}
-\newcommand{\abgabeort}{Mannheim}
+\newcommand{\titel}{Titel der Arbeit}                 % Titel / title
+\newcommand{\untertitel}{Untertitel der Arbeit}       % Untertitel / subtitle (optional)
+\newcommand{\arbeit}{Projektarbeit (T2000)}           % Art der Arbeit / type of work
+\newcommand{\autor}{Vorname Nachname}                 % Name / name
+\newcommand{\matrikelnr}{1234567}                     % Matrikelnummer / student ID
+\newcommand{\kurs}{TINF24A}                           % Kurs / course
+\newcommand{\studiengang}{Informatik}                 % Studiengang / study program
+\newcommand{\studienrichtung}{Angewandte Informatik}  % Studienrichtung / specialization (optional)
+\newcommand{\standort}{Mannheim}                      % DHBW-Standort / DHBW campus
+\newcommand{\firma}{Musterfirma GmbH \& Co. KG}       % Ausbildungsfirma / partner company
+\newcommand{\firmenort}{Musterstraße 1, 12345 Musterstadt} % Adresse / address
+\newcommand{\betreuer}{Vorname Nachname}              % Betreuer Firma / in-company supervisor
+\newcommand{\gutachter}{Prof. Dr. Vorname Nachname}   % Gutachter DHBW / university reviewer
+\newcommand{\zeitraum}{12 Wochen}                     % Bearbeitungszeitraum / processing period
+\newcommand{\datumAbgabe}{01.09.2026}                 % Abgabedatum / submission date
+\newcommand{\abgabeort}{Mannheim}                     % Abgabeort / place of submission
 %% ==============================================================
 
 \input{ads/header}
@@ -134,9 +136,10 @@
 	\phantomsection \label{listoflit}
 	\addcontentsline{toc}{chapter}{\bibname}
 
-	% Stil: agsm = Harvard (Autor, Jahr). Andere Stile, die mit harvard.sty
-	% funktionieren: dcu, kluwer, jmr, apsr, nederlands, jphysicsB.
-	\bibliographystyle{agsm}
+	% Stil: Harvard (Autor, Jahr); agsm-de.bst ist agsm mit deutschen Wörtern
+	% (S., Hrsg., Aufl.). Andere Stile, die mit harvard.sty funktionieren
+	% (alle englisch): dcu, kluwer, jmr, apsr, nederlands, jphysicsB.
+	\ifenglisch\bibliographystyle{agsm}\else\bibliographystyle{agsm-de}\fi
 	\bibliography{literatur}
 
 	% Abkürzungsverzeichnis (zeigt nur Abkürzungen, die im Text per \ac{} vorkommen)

@@ -44,7 +44,11 @@
 %\addtokomafont{disposition}{\rmfamily}
 
 %% ---- 3 Sprache -----------------------------------------------------
-% Umgeschaltet mit \englischtrue / \englischfalse in dokumentation.tex.
+% Die Arbeit hat genau eine Sprache: ./set-language.sh de|en setzt
+% \englischtrue / \englischfalse in dokumentation.tex und das passende Gerüst.
+% Deckblatt, Erklärung, Verzeichnisse, Zitate und Verweise folgen dem Schalter.
+% \deen{deutsch}{english}: Text je nach Sprache, für Vorlagenteile wie das Deckblatt
+\newcommand{\deen}[2]{\ifenglisch#2\else#1\fi}
 % main= explizit: 'ngerman' steht auch in den Klassenoptionen und wird
 % global durchgereicht, wodurch die reine Reihenfolge nicht mehr entscheidet.
 \ifenglisch

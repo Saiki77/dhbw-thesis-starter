@@ -1,6 +1,6 @@
 # DHBW thesis starter
 
-LaTeX skeleton for a DHBW thesis (Projektarbeit, Studienarbeit, Bachelorarbeit), built locally with latexmk and written in VS Code with an Overleaf-style live preview: the PDF sits beside the source, rebuilds about 2 s after typing stops, and scrolls to the sentence under the cursor.
+LaTeX skeleton for a DHBW thesis (Projektarbeit, Studienarbeit, Bachelorarbeit) in German or in English, one language per thesis, built locally with latexmk and written in VS Code with an Overleaf-style live preview: the PDF sits beside the source, rebuilds about 2 s after typing stops, and scrolls to the sentence under the cursor.
 The bundled VS Code extension **LaTeX Review Companion** (`tools/`) adds "PDF follows cursor", clickable citation evidence links and a citation check.
 
 ## First-time setup
@@ -10,20 +10,19 @@ About 5 minutes, plus a 10–20 minute MacTeX download if TeX is missing.
 macOS only; on Windows or Linux follow [Windows and Linux](#windows-and-linux) instead of step 2.
 
 1. **Detach from the starter repo.** If `git remote -v` shows `Saiki77/dhbw-thesis-starter`, run `git remote remove origin`, so the thesis is never pushed there.
-2. **Install.** Run `./setup.sh`. It checks MacTeX and VS Code, installs LaTeX Workshop and the companion extension, and test-builds the PDF. It is safe to re-run and needs no password. For each item it reports missing, pass its fix on to the user: commands that install software run in the user's own terminal (the MacTeX installer asks for their password; never ask for it or type it yourself), and a VS Code update happens in VS Code itself. Steps 3 and 4 only need MacTeX, so continue with them while VS Code items are open, and re-run `./setup.sh` until it prints `Ready`.
-3. **Personalize.** Ask the user, in one message, for the data below and fill in the block `DEINE ANGABEN` at the top of `thesis/dokumentation.tex`:
-   - language of the thesis: German (default) or English (`\englischtrue`)
-   - title, subtitle (optional), type of work, e.g. `Projektarbeit (T2000)` or `Bachelorarbeit (T3300)`
+2. **Install.** Run `./setup.sh`. It checks MacTeX and VS Code, installs LaTeX Workshop and the companion extension, and test-builds the PDF. It is safe to re-run and needs no password. For each item it reports missing, pass its fix on to the user: commands that install software run in the user's own terminal (the MacTeX installer asks for their password; never ask for it or type it yourself), and a VS Code update happens in VS Code itself. Steps 3 to 5 only need MacTeX, so continue with them while VS Code items are open, and re-run `./setup.sh` until it prints `Ready`.
+3. **Language.** Ask whether the thesis will be written in German or in English, then run `./set-language.sh de` or `./set-language.sh en`. It sets the switch in `thesis/dokumentation.tex` and installs that language's skeleton: chapters, cheat sheet, abstract, glossary, abbreviations, example bibliography. Title page, declaration, confidentiality notice, headings, quotation marks, citations, bibliography wording and cross-references follow the switch. It deletes `lang/`, so the thesis exists in one language only. Talk to the user in the language they write to you in, whichever the thesis uses.
+4. **Personalize.** Ask the user, in one message, for the data below and fill in the block `DEINE ANGABEN / YOUR DATA` at the top of `thesis/dokumentation.tex`, with values in the thesis language (e.g. Studiengang `Computer Science` for an English thesis):
+   - title, subtitle (optional), type of work, e.g. `Bachelorarbeit (T3300)` or `Bachelor Thesis (T3300)`
    - name, Matrikelnummer, Kurs, Studiengang, Studienrichtung (optional), DHBW location
    - company and its address, supervisor at the company, reviewer at the DHBW (if known)
    - Bearbeitungszeitraum, submission date and place
    - Sperrvermerk wanted? (default yes; `\sperrvermerkfalse` removes the page)
    - company logo: a PNG saved as `thesis/images/logo.png`; for none, delete that file
 
-   Write `&` as `\&`. An empty field (`\newcommand{\gutachter}{}`) drops its row from the title page. Field values are printed as given, so keep them in the language the title page needs.
-   The title page stays German in both languages (DHBW standard; its labels are in `ads/deckblatt.tex`). For an English thesis, also translate the chapter titles and placeholder sentences in `thesis/content/` and `ads/abstract.tex`, which are German.
-4. **Build and commit.** `./build.sh` must end with `no errors, no undefined references`. Then `git add -A && git commit -m "Personalize thesis"` (run `git init` first if the folder came from a ZIP download), and offer the user a private repo of their own as backup: `gh repo create <name> --private --source . --push`.
-5. **Open.** Run `open -a "Visual Studio Code" .` yourself. Then the user opens `thesis/dokumentation.tex` and presses Cmd+Alt+V. Show them the keys under [Daily use](#daily-use) and the one-sentence-per-line rule, and suggest starting Claude Code inside this folder from now on, so this file is read automatically.
+   Write `&` as `\&`. An empty field (`\newcommand{\gutachter}{}`) drops its row from the title page.
+5. **Build and commit.** `./build.sh` must end with `no errors, no undefined references`. Then `git add -A && git commit -m "Personalize thesis"` (run `git init` first if the folder came from a ZIP download), and offer the user a private repo of their own as backup: `gh repo create <name> --private --source . --push`.
+6. **Open.** Run `open -a "Visual Studio Code" .` yourself. Then the user opens `thesis/dokumentation.tex` and presses Cmd+Alt+V. Show them the keys under [Daily use](#daily-use) and the one-sentence-per-line rule, and suggest starting Claude Code inside this folder from now on, so this file is read automatically.
 
 ## Daily use
 
@@ -48,11 +47,12 @@ A blank line starts a new paragraph; a single line break does not show in the PD
 
 ```
 setup.sh, build.sh              one-time setup; build with error summary
-thesis/dokumentation.tex        DEINE ANGABEN block on top, then the order of all parts
+set-language.sh, lang/en/       choose German or English once; English skeleton (deleted after)
+thesis/dokumentation.tex        DEINE ANGABEN / YOUR DATA block on top, then the order of all parts
 thesis/ads/header.tex           every style setting, in numbered sections (§1–§10)
 thesis/ads/                     deckblatt, sperrvermerk, erklaerung, abstract, glossary, acronyms
 thesis/content/                 chapters 01–06, beispiele.tex (cheat sheet), anhang.tex
-thesis/literatur.bib            bibliography (BibTeX)
+thesis/literatur.bib            bibliography (BibTeX); agsm-de.bst = German bibliography wording
 thesis/images/                  figures; logo.png = company logo, dhbw.png
 thesis/sources/                 optional source PDFs for evidence links (git-ignored)
 tools/                          LaTeX Review Companion: .vsix and its source
@@ -63,8 +63,8 @@ tools/                          LaTeX Review Companion: .vsix and its source
 
 - **New chapter:** create `thesis/content/07-name.tex` starting with `%!TEX root = ../dokumentation.tex` and `\chapter{Title}\label{ch:name}`, then add `\input{content/07-name}` to `dokumentation.tex`.
 - **Cheat sheet:** `content/beispiele.tex` shows every element once: citations, figure, TikZ diagram, table, listing, equation, footnote, abbreviation, glossary term, draft note. Copy from it; delete its `\input` line when it is no longer needed.
-- **Cite:** `\citep{key}` → (Author, 2020); `\citep[S.~12]{key}` adds the page; `\citet{key}` → Author (2020). Entries go into `literatur.bib`; only cited ones are printed.
-- **Cross-reference:** `\label{fig:x}` after `\caption`, then `\autoref{fig:x}` → "Abbildung 3.1". Prefixes: `ch:` `sec:` `fig:` `tab:` `lst:` `eq:` `app:`.
+- **Cite:** `\citep{key}` → (Author, 2020); `\citep[S.~12]{key}` (English: `[p.~12]`) adds the page; `\citet{key}` → Author (2020). Entries go into `literatur.bib`; only cited ones are printed.
+- **Cross-reference:** `\label{fig:x}` after `\caption`, then `\autoref{fig:x}` → "Abbildung 3.1" / "Figure 3.1". Prefixes: `ch:` `sec:` `fig:` `tab:` `lst:` `eq:` `app:`.
 - **Abbreviations:** define in `ads/acronyms.tex`, write `\ac{API}`; the first use is spelled out. Only used ones appear in the list.
 - **Glossary:** define in `ads/glossary.tex`, link with `\gls{key}`; all entries are printed.
 - **Draft notes:** `\begin{notiz} … \end{notiz}` prints red; `\excludecomment{notiz}` in `header.tex` §7 hides all of them.
@@ -76,7 +76,7 @@ Almost everything is in `thesis/ads/header.tex`, in numbered sections (§).
 
 | Want | Where | Change |
 |---|---|---|
-| Language | `dokumentation.tex` | `\englischtrue` / `\englischfalse`: headings, quotes, citations, cross-references, Erklärung; the title page stays German |
+| Language | `./set-language.sh de` or `en` | once, before writing; afterwards `\englischtrue` / `\englischfalse` in `dokumentation.tex` still switches title page, headings, declaration, quotation marks, citations and bibliography wording, but not text already written |
 | Font | header §2 | replace `\usepackage{palatino}` with one of the listed alternatives |
 | Serif headings | header §2 | uncomment `\addtokomafont{disposition}{\rmfamily}` |
 | Font size | class options in `dokumentation.tex` | `12pt` → `11pt` |
@@ -88,8 +88,8 @@ Almost everything is in `thesis/ads/header.tex`, in numbered sections (§).
 | Diagram shapes | header §5 | the `\tikzset` styles `fio`, `fstage`, `fkey`, `fmuted`, `fgate`, … |
 | Table spacing | header §5 | `\tabcolsep`, `\arraystretch`; they apply to all tables, including the title page |
 | Code listings | header §6 | `\lstset`; per listing `[language=Java]` |
-| Citation look | header §9 | `\citationmode`, `\harvardand`; style `agsm` in `dokumentation.tex` → `dcu`, `kluwer`, `jmr`, `apsr`, `nederlands`, `jphysicsB` |
-| Title page | `ads/deckblatt.tex` | layout only; the data comes from `dokumentation.tex` |
+| Citation look | header §9 | `\citationmode`, `\harvardand`; bibliography style in `dokumentation.tex`: `agsm` (English) and `agsm-de` (German); other English-only options: `dcu`, `kluwer`, `jmr`, `apsr`, `nederlands`, `jphysicsB` |
+| Title page | `ads/deckblatt.tex` | layout, and labels as `\deen{deutsch}{english}`; the data comes from `dokumentation.tex` |
 | Table of contents depth | `dokumentation.tex` | `\setcounter{tocdepth}{2}` |
 | Order of front and back matter | `dokumentation.tex` | move the `\input` blocks; pages are Roman (front), Arabic (text), roman (back) |
 | Glossary layout | `dokumentation.tex` | `\printglossary[style=altlist]` → `list`, `long`, `super`, … |
@@ -130,6 +130,7 @@ Our own VS Code extension, not on the marketplace; source in `tools/latex-review
 ## Rules for Claude
 
 - After editing any `.tex` or `.bib` file, run `./build.sh` and fix everything it lists before reporting done.
+- The thesis has one language, the one set by `\englischtrue` / `\englischfalse`: write new chapters, captions, glossary entries and abbreviations in it. In a German thesis, page numbers are `S.~12` and editions `edition = {2}`; in an English one `p.~12` and `{2nd}`.
 - Keep `content/` and `ads/abstract.tex` at one sentence per line.
 - Put new packages into the matching `header.tex` section; packages that need hyperref go after §8.
 - Never invent bibliography entries, page numbers or quotes. Add entries only from sources the user gives you or that you have checked, and cite the published page numbers, not PDF sheet numbers.
@@ -149,4 +150,4 @@ Our own VS Code extension, not on the marketplace; source in `tools/latex-review
 
 ## Credits
 
-Template: DHBW LaTeX template by Tobias Dreher, Yves Fischer and Michael Gruben, Apache License 2.0 (`thesis/LICENSE`), changed in 2026: local build, VS Code setup, language switch, data block, bug fixes. `harvard.sty` and `agsm.bst` come with TeX Live.
+Template: DHBW LaTeX template by Tobias Dreher, Yves Fischer and Michael Gruben, Apache License 2.0 (`thesis/LICENSE`), changed in 2026: local build, VS Code setup, German or English, data block, bug fixes. `harvard.sty` and `agsm.bst` come with TeX Live; `thesis/agsm-de.bst` is `agsm.bst` with German wording, renamed as its license requires.
