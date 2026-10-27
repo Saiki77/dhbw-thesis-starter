@@ -17,14 +17,22 @@ cd "$(dirname "$0")/thesis"
 DOC=dokumentation
 
 # Errors and unresolved references from the last run, so nothing scrolls past.
+# $1 = latexmk's exit status: never claim "no errors" when latexmk reported one.
 report() {
   [ -f "$DOC.log" ] || return 0
   local errors refs
-  errors=$(grep -E '^(! |\./.*:[0-9]+: )' "$DOC.log" | sort -u | head -20 || true)
-  refs=$(grep -E 'LaTeX Warning: (Reference|Citation) .* undefined' "$DOC.log" | sort -u | head -20 || true)
+  # file:line: errors, including ones raised inside TeX Live's files (absolute paths)
+  errors=$(grep -E '^(! |\.?/[^:]*:[0-9]+: )' "$DOC.log" | sort -u | head -20 || true)
+  refs=$(grep -E '(LaTeX|Package natbib) Warning: (Reference|Citation) .* undefined' "$DOC.log" | sort -u | head -20 || true)
   if [ -n "$errors" ]; then printf '\nErrors:\n%s\n' "$errors"; fi
   if [ -n "$refs" ]; then printf '\nUndefined references or citations:\n%s\n' "$refs"; fi
-  if [ -z "$errors$refs" ]; then echo "no errors, no undefined references"; fi
+  if [ -z "$errors$refs" ]; then
+    if [ "${1:-0}" -eq 0 ]; then
+      echo "no errors, no undefined references"
+    else
+      echo "latexmk reported a problem (exit $1); details in $(pwd)/$DOC.log"
+    fi
+  fi
 }
 
 case "${1:-build}" in
@@ -47,7 +55,7 @@ case "${1:-build}" in
   open)
     status=0
     latexmk -pdf "$DOC.tex" || status=$?
-    report
+    report "$status"
     open "$DOC.pdf" 2>/dev/null || xdg-open "$DOC.pdf"
     exit "$status"
     ;;
@@ -55,7 +63,7 @@ case "${1:-build}" in
     status=0
     latexmk -pdf "$DOC.tex" || status=$?
     echo "built: $(pwd)/$DOC.pdf"
-    report
+    report "$status"
     exit "$status"
     ;;
   *)
